@@ -7,6 +7,9 @@ public class PlayerController : MonoBehaviour
     // Referencia a objeto Animator
     Animator animator;
     public float velocidadGiro = 200f;
+    // Establecemos la distancia al suelo
+    public float distanciaSuelo = 0.2f;
+    public LayerMask capaSuelo;
 
     void Start()
     
@@ -18,6 +21,15 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Si el personaje está  en el suelo (plane 3d), permitimos que la animacion controle la posicion
+        //(el personaje en su posicion actual, la distancia del suelo actual, la distancia requerida para saber si esta en el suelo, el suelo)
+        if(Physics.Raycast(transform.position,-Vector3.up,distanciaSuelo,capaSuelo))
+        {
+            animator.applyRootMotion = true;
+        }else{
+            animator.applyRootMotion = false;
+        }
+
         //Opciones para controlar las animaciones
         //Animación 1: Caminar
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
